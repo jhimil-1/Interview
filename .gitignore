@@ -1,0 +1,11 @@
+# Environment files
+.env
+*.env
+
+# Configuration files
+config.py
+
+# Shell/command history
+.history
+*history*
+*.hist

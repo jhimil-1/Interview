@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 AI Voice Interview Agent</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-microphone"></i> AI Voice Interview Agent</h1>
+            <p>An intelligent interviewer that conducts voice-based interviews and provides real-time analysis</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Setup Stage -->
+            <div id="setup-stage" class="stage active">
+                <div class="welcome-section">
+                    <div class="welcome-grid">
+                        <div class="welcome-card">
+                            <h2>Welcome to AI Interview Agent</h2>
+                            <div class="features">
+                                <h3>Features:</h3>
+                                <ul>
+                                    <li><i class="fas fa-bullseye"></i> Generates relevant interview questions based on job description</li>
+                                    <li><i class="fas fa-microphone"></i> Voice-based interaction using advanced TTS and STT</li>
+                                    <li><i class="fas fa-chart-bar"></i> Real-time answer analysis and feedback</li>
+                                    <li><i class="fas fa-file-alt"></i> Comprehensive interview report generation</li>
+                                    <li><i class="fas fa-robot"></i> Powered by Gemini Flash 1.5, ElevenLabs, and Deepgram</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="welcome-card">
+                            <h2>How it Works</h2>
+                            <div class="steps">
+                                <div class="step">
+                                    <span class="step-number">1</span>
+                                    <div>
+                                        <h4>Enter Job Description</h4>
+                                        <p>Provide details about the position</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">2</span>
+                                    <div>
+                                        <h4>AI Generates Questions</h4>
+                                        <p>Relevant questions are created automatically</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">3</span>
+                                    <div>
+                                        <h4>Voice Interview</h4>
+                                        <p>Candidate answers questions verbally</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">4</span>
+                                    <div>
+                                        <h4>Real-time Analysis</h4>
+                                        <p>Each answer is analyzed immediately</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">5</span>
+                                    <div>
+                                        <h4>Final Report</h4>
+                                        <p>Get a comprehensive evaluation report</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setup-form">
+                    <h2>Setup Interview</h2>
+                    <div class="form-group">
+                        <label for="job-description">Job Description</label>
+                        <textarea id="job-description" placeholder="Enter the job description here..." rows="8"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="num-questions">Number of Questions: <span id="question-count">5</span></label>
+                        <input type="range" id="num-questions" min="3" max="10" value="5">
+                    </div>
+                    <button id="start-interview" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Start Interview
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interview Stage -->
+            <div id="interview-stage" class="stage">
+                <div class="interview-header">
+                    <div class="progress-section">
+                        <h2>Interview Progress</h2>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <p id="progress-text">Question 1 of 5</p>
+                    </div>
+                    <button id="end-interview" class="btn btn-secondary">
+                        <i class="fas fa-stop"></i> End Interview
+                    </button>
+                </div>
+
+                <div class="interview-content">
+                    <div class="question-section">
+                        <div class="question-card">
+                            <h2 id="question-title">Question 1</h2>
+                            <h3 id="current-question">Loading question...</h3>
+                            <p id="question-meta">Skill Area: - | Difficulty: -</p>
+                        </div>
+
+                        <div class="interview-controls">
+                            <button id="ask-question" class="btn btn-primary">
+                                <i class="fas fa-volume-up"></i> Ask Question
+                            </button>
+                            <button id="record-response" class="btn btn-success">
+                                <i class="fas fa-microphone"></i> Record Response
+                            </button>
+                            <button id="next-question" class="btn btn-info">
+                                <i class="fas fa-arrow-right"></i> Next Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="response-section">
+                        <h3>Latest Response</h3>
+                        <div class="response-card">
+                            <textarea id="response-transcript" placeholder="Your response will appear here..." rows="6" readonly></textarea>
+                            <button id="analyze-response" class="btn btn-warning">
+                                <i class="fas fa-search"></i> Analyze Response
+                            </button>
+                        </div>
+
+                        <div id="analysis-results" class="analysis-card" style="display: none;">
+                            <h4>Analysis Results</h4>
+                            <div class="score-display">
+                                <div class="score-item">
+                                    <span class="score-label">Overall Score</span>
+                                    <span class="score-value" id="overall-score">-/10</span>
+                                </div>
+                            </div>
+                            <div class="feedback-section">
+                                <h5>Feedback:</h5>
+                                <p id="analysis-feedback">No feedback available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Stage -->
+            <div id="report-stage" class="stage">
+                <div class="report-header">
+                    <h2>Interview Report</h2>
+                    <div class="report-actions">
+                        <button id="download-report" class="btn btn-success">
+                            <i class="fas fa-download"></i> Download Report
+                        </button>
+                        <button id="new-interview" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> New Interview
+                        </button>
+                    </div>
+                </div>
+
+                <div class="report-content">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h3>Overall Rating</h3>
+                            <div class="metric-value" id="overall-rating">-/10</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Technical Skills</h3>
+                            <div class="metric-value" id="technical-skills">-/10</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Communication</h3>
+                            <div class="metric-value" id="communication-skills">-/10</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Recommendation</h3>
+                            <div class="metric-value" id="recommendation">-</div>
+                        </div>
+                    </div>
+
+                    <div class="report-sections">
+                        <div class="report-section">
+                            <h3>Summary</h3>
+                            <p id="report-summary">Generating report...</p>
+                        </div>
+
+                        <div class="report-grid">
+                            <div class="report-section">
+                                <h3>Strengths</h3>
+                                <ul id="strengths-list"></ul>
+                            </div>
+                            <div class="report-section">
+                                <h3>Areas for Improvement</h3>
+                                <ul id="improvements-list"></ul>
+                            </div>
+                        </div>
+
+                        <div class="report-section">
+                            <h3>Detailed Feedback</h3>
+                            <p id="detailed-feedback">Generating detailed feedback...</p>
+                        </div>
+
+                        <div class="report-section">
+                            <h3>Question-wise Performance</h3>
+                            <div id="performance-table"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p id="loading-text">Processing...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

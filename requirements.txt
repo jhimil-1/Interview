@@ -1,0 +1,20 @@
+
+# FastAPI dependencies
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Original dependencies
+streamlit
+google-generativeai
+elevenlabs
+deepgram-sdk
+python-dotenv
+pyaudio
+numpy
+scipy
+pydub
+streamlit-webrtc
+websockets
+aiohttp
+requests
