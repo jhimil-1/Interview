@@ -2,8 +2,7 @@
 .env
 *.env
 
-# Configuration files
-config.py
+# Configuration file
 
 # Shell/command history
 .history
