@@ -1,9 +1,6 @@
 # Environment files
 .env
 *.env
-
-# Configuration file
-
 # Shell/command history
 .history
 *history*
